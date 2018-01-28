@@ -46,7 +46,6 @@ values."
 
      ;; Clojure
      clojure
-     parinfer
 
      ;; Git
      git
