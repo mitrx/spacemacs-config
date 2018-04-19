@@ -45,12 +45,14 @@ values."
      shell-scripts
 
      ;; Clojure
-     clojure
+     (clojure :variables clojure-enable-fancify-symbols t)
 
      ;; Git
      git
      version-control
 
+     rust
+     markdown
      html
      osx
      sql
@@ -149,7 +151,7 @@ values."
                                :size 16
                                :width normal
                                :weight normal
-                               :powerline-scale 1)
+                               :powerline-scale 1.0)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
@@ -359,7 +361,6 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; (setq ns-use-srgb-colorspace nil)
   ;; (set-fringe-mode '(8 . 8))
-
   (setq powerline-default-separator nil)
   ;; (setq clojure-enable-fancify-symbols t)
   ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -373,7 +374,7 @@ you should place your code here."
   (spacemacs/toggle-vi-tilde-fringe-off)
   (spacemacs/toggle-maximize-frame-on)
   (spacemacs/toggle-highlight-long-lines-globally-on)
-  (spacemacs/toggle-golden-ratio-on)
+  ;; (spacemacs/toggle-golden-ratio-on)
   (spacemacs/toggle-global-whitespace-cleanup-on)
 
   (when (window-system)
@@ -437,7 +438,7 @@ you should place your code here."
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#073642" t)
+ '(fci-rule-color "#073642")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -461,7 +462,11 @@ you should place your code here."
  '(hl-fg-colors
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(magit-commit-arguments (quote ("--gpg-sign=48FB6717129DCF51")))
  '(magit-diff-use-overlays nil)
+ '(magit-tag-arguments
+   (quote
+    ("--annotate" "--sign" "--local-user=48FB6717129DCF51")))
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
@@ -508,7 +513,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((((class color) (min-colors 89)) (:foreground "#D8DEE9" :background "#2E3440")))))
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -551,13 +556,17 @@ This function is called at the very end of Spacemacs initialization."
  '(hl-fg-colors
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(magit-commit-arguments (quote ("--gpg-sign=48FB6717129DCF51")))
  '(magit-diff-use-overlays nil)
+ '(magit-tag-arguments
+   (quote
+    ("--annotate" "--sign" "--local-user=48FB6717129DCF51")))
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (spaceline-all-the-icons spaceline unfill clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode flycheck-rust seq flycheck-pos-tip pos-tip flycheck git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl plantuml-mode sql-indent mwim mmm-mode markdown-toc markdown-mode helm-company helm-c-yasnippet gh-md company-statistics company-c-headers company-auctex company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete disaster cmake-mode clang-format toml-mode racer cargo rust-mode monokai-theme solarized-theme auctex-latexmk auctex smeargle orgit org magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit with-editor yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic hide-comnt ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (yasnippet-snippets editorconfig htmlize less-css-mode let-alist xterm-color winum wgrep web-mode tagedit smex slim-mode shell-pop scss-mode sass-mode pug-mode multi-term ivy-hydra insert-shebang haml-mode fuzzy fish-mode ghub eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker tablist docker-tramp counsel-projectile counsel swiper ivy company-web web-completion-data company-shell spaceline unfill clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode flycheck-rust seq flycheck-pos-tip pos-tip flycheck git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl plantuml-mode sql-indent mwim mmm-mode markdown-toc markdown-mode helm-company helm-c-yasnippet gh-md company-statistics company-c-headers company-auctex company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete disaster cmake-mode clang-format toml-mode racer cargo rust-mode monokai-theme solarized-theme auctex-latexmk auctex smeargle orgit org magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit with-editor yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic hide-comnt ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
@@ -598,5 +607,5 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((((class color) (min-colors 89)) (:foreground "#D8DEE9" :background "#2E3440")))))
 )
